@@ -18,7 +18,19 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
+    public function findOneByIdJoinedToConge(int $UserId): ?User
+    {
+        $entityManager = $this->getEntityManager();
 
+        $query = $entityManager->createQuery(
+            'SELECT u, c
+            FROM App\Entity\User u
+            INNER JOIN u.conge c
+            WHERE u.id = :id'
+        )->setParameter('id', $UserId);
+
+        return $query->getOneOrNullResult();
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+demander un conge
+{{form(form)}}
+<table class="table">
+ 
+  <tbody>
+  {% for a in conge %}
+    <tr>
+      <th scope="row">{{a.date_debut}}</th>
+      <td>{{a.nb_jours}}</td>
+    
+    </tr>
+
+    {% endfor %}
+  
+  </tbody>
+</table>
+{% endblock %}

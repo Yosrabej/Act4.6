@@ -1,3 +1,5 @@
+parameters:
+    upload_directory: '%kernel.project_dir%/public/uploads'
 security:
     encoders:
         App\Entity\User:
@@ -34,3 +36,6 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        #- {path: ^/inscription, roles: ROLE_ADMIN}
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/home, roles: ROLE_USER }

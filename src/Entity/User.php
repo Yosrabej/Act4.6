@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -34,6 +36,10 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $username;
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,6 +51,18 @@ class User implements UserInterface
      *@Assert\EqualTo(propertyPath="password", message="mot de passe incorrect")
      */
     public $confirm_password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Conge::class, mappedBy="userId")
+     */
+    private $conges;
+
+
+
+    public function __construct()
+    {
+        $this->conges = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -62,7 +80,10 @@ class User implements UserInterface
 
         return $this;
     }
-
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
     public function getUsername(): ?string
     {
         return $this->username;
@@ -94,6 +115,41 @@ class User implements UserInterface
     }
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        // give everyone ROLE_USER!
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+        return $roles;
+    }
+
+    /**
+     * @return Collection|Conge[]
+     */
+    public function getConges(): Collection
+    {
+        return $this->conges;
+    }
+
+    public function addConge(Conge $conge): self
+    {
+        if (!$this->conges->contains($conge)) {
+            $this->conges[] = $conge;
+            $conge->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConge(Conge $conge): self
+    {
+        if ($this->conges->removeElement($conge)) {
+            // set the owning side to null (unless already changed)
+            if ($conge->getUserId() === $this) {
+                $conge->setUserId(null);
+            }
+        }
+
+        return $this;
     }
 }
