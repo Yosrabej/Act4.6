@@ -25,19 +25,19 @@
         <a class="nav-link" href="{{ path('actualites') }}">Actualités </a>
       </li>
         <li class="nav-item">
-        <a class="nav-link" href="{{ path('cooptation') }}">télécharger un fichier</a>
+        <a class="nav-link" href="{{ path('cooptation') }}">Télécharger un fichier</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ path('conge') }}">Demander un congé</a>
       </li>
        <li class="nav-item">
-        <a class="nav-link" href="{{ path('historique') }}">historique</a>
+        <a class="nav-link" href="{{ path('historique') }}">Historique</a>
       </li>
     </ul>
      {% if not app.user %}
-<a href="{{path('security_login')}}">connexion</a>
+<a class="nav-link" href="{{path('security_login')}}">Connexion</a>
        {% else %}
-        <a href="{{path('security_logout')}}">déconnexion</a>
+        <a class="nav-link" href="{{path('security_logout')}}">Déconnexion</a>
       {% endif %}
       <br/>
   </div>

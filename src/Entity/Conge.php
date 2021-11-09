@@ -31,7 +31,7 @@ class Conge
      */
     private $statut;
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="conges")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

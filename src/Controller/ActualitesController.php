@@ -18,12 +18,11 @@ class ActualitesController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator)
 
     {
-        // $actualites = new Actualites();
         $donnees = $this->getDoctrine()->getRepository(Actualites::class)->findAll();
         $actualites = $paginator->paginate(
             $donnees,
-            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-            3 // Nombre de résultats par page
+            $request->query->getInt('page', 1),
+            3
         );
         return $this->render('actualites/index.html.twig', array('actualites' => $actualites));
     }

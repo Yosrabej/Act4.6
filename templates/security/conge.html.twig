@@ -1,15 +1,28 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 demander un conge
+<div class='conge_form'>
 {{form(form)}}
 
+  <table class="table">
+  <thead>
+    <tr>
+      
+      <th scope="col">Date</th>
+      <th scope="col">Nombre de jours</th>
+      <th scope="col">Statut</th>
+    </tr>
+  </thead>
+  <tbody>
   {% for a in conge %}
- Nombre de jours{{a.nbJours}} 
- <br/>
- Date {{a.dateDebut |date("m/d/Y") }}
- <br/>
-Statut {{a.statut}}
-    
+    <tr>
+    <td>{{a.dateDebut|date("m/d/Y")}}</td>
+      <th scope="row">{{a.nbJours}}</th>
+      
+      <td>{{a.statut}}</td>
+    </tr>
     {% endfor %}
-  
+  </tbody>
+</table>
+</div>
 {% endblock %}

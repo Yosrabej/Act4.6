@@ -53,7 +53,7 @@ class User implements UserInterface
     public $confirm_password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Conge::class, mappedBy="conge")
+     * @ORM\OneToMany(targetEntity=Conge::class, mappedBy="user")
      */
     private $conges;
 

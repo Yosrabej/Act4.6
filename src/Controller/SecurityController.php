@@ -81,8 +81,7 @@ class SecurityController extends AbstractController
     public function conge(Request $request, EntityManagerInterface $manager, Security $security)
     {
         $manager = $this->getDoctrine()->getManager();
-        $username = $security->getUser()->getUsername();
-        $user = $manager->getRepository('App:User')->findOneBy(array('username' => $username));
+        $user = $security->getUser();
         $conge = new Conge();
         $conge->setUser($user);
 
@@ -95,9 +94,9 @@ class SecurityController extends AbstractController
         }
         $conge = $this->getDoctrine()->getRepository(Conge::class);
 
-        //  $user1 = $conge->find($id);
-        //  $id = $user->getId();
-        // $conge = $this->getDoctrine()->getRepository(Conge::class)->findBy(array('id', $id));
+
+        //$id = $user->getId();
+        $conge = $this->getDoctrine()->getRepository(Conge::class)->findBy(array('user' => $user));
 
         return $this->render('security/conge.html.twig', ['form' => $form->createView(), 'conge' => $conge]);
     }
@@ -116,14 +115,14 @@ class SecurityController extends AbstractController
     public function valider(EntityManagerInterface $manager, $id)
     {
         $conge = $this->getDoctrine()->getRepository(Conge::class)->find($id);
-        // $conge = new Conge();
+
         $val = 'validé';
         $conge->setStatut($val);
         $manager->persist($conge);
         $manager->flush();
 
-
         return $this->render('Conge/historique.html.twig', ["conge" => $conge]);
+        // return new Response('congé validé');
     }
     /** 
      * @Route("/historique/refuser/{id}", name="refuser")
