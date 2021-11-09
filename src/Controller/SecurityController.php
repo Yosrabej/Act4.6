@@ -93,9 +93,11 @@ class SecurityController extends AbstractController
             $manager->persist($conge);
             $manager->flush();
         }
+        $conge = $this->getDoctrine()->getRepository(Conge::class);
 
-        //   $id = $user->getId();
-        //   $conge = $this->getDoctrine()->getRepository(Conge::class)->findBy(array('id', $id));
+        //  $user1 = $conge->find($id);
+        //  $id = $user->getId();
+        // $conge = $this->getDoctrine()->getRepository(Conge::class)->findBy(array('id', $id));
 
         return $this->render('security/conge.html.twig', ['form' => $form->createView(), 'conge' => $conge]);
     }
@@ -111,12 +113,26 @@ class SecurityController extends AbstractController
     /** 
      * @Route("/historique/valider/{id}", name="valider")
      */
-    public function valider(Request $request,  EntityManagerInterface $manager)
+    public function valider(EntityManagerInterface $manager, $id)
     {
-        $conge = new Conge();
-        //  $conge->date_debut = $request->date_debut;
-
+        $conge = $this->getDoctrine()->getRepository(Conge::class)->find($id);
+        // $conge = new Conge();
         $val = 'validé';
+        $conge->setStatut($val);
+        $manager->persist($conge);
+        $manager->flush();
+
+
+        return $this->render('Conge/historique.html.twig', ["conge" => $conge]);
+    }
+    /** 
+     * @Route("/historique/refuser/{id}", name="refuser")
+     */
+    public function refuser(EntityManagerInterface $manager, $id)
+    {
+        $conge = $this->getDoctrine()->getRepository(Conge::class)->find($id);
+
+        $val = 'refusé';
         $conge->setStatut($val);
         $manager->persist($conge);
         $manager->flush();
