@@ -80,22 +80,48 @@ class SecurityController extends AbstractController
      */
     public function conge(Request $request, EntityManagerInterface $manager, Security $security)
     {
-        $user = new User();
+        $manager = $this->getDoctrine()->getManager();
+        $username = $security->getUser()->getUsername();
+        $user = $manager->getRepository('App:User')->findOneBy(array('username' => $username));
         $conge = new Conge();
+        $conge->setUser($user);
+
         $form = $this->createForm(CongeType::class, $conge);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $conge->getDateDebut();
-            $conge->getNbJours();
-            $id = $user->getId();
-            $conge->setUserId($id);
+            $conge->setStatut('en cours');
             $manager->persist($conge);
-
             $manager->flush();
         }
 
+        //   $id = $user->getId();
+        //   $conge = $this->getDoctrine()->getRepository(Conge::class)->findBy(array('id', $id));
+
         return $this->render('security/conge.html.twig', ['form' => $form->createView(), 'conge' => $conge]);
+    }
+    /** 
+     * @Route("/historique", name="historique")
+     */
+    public function historique()
+    {
+        $conge = $this->getDoctrine()->getRepository(Conge::class)->findAll();
+
+        return $this->render('Conge/historique.html.twig', ["conge" => $conge]);
+    }
+    /** 
+     * @Route("/historique/valider/{id}", name="valider")
+     */
+    public function valider(Request $request,  EntityManagerInterface $manager)
+    {
+        $conge = new Conge();
+        //  $conge->date_debut = $request->date_debut;
+
+        $val = 'validé';
+        $conge->setStatut($val);
+        $manager->persist($conge);
+        $manager->flush();
+
+
+        return $this->render('Conge/historique.html.twig', ["conge" => $conge]);
     }
 }

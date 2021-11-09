@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-demander un conge
-{{form(form)}}
-
-  {% for a in conge %}
+<h3 class='ph'>historique des demandes</h3>
+{% for a in conge %}
+<br/>
  Nombre de jours{{a.nbJours}} 
  <br/>
  Date {{a.dateDebut |date("m/d/Y") }}
  <br/>
 Statut {{a.statut}}
-    
-    {% endfor %}
-  
+<br/>
+
+<a href="{{ path('valider',{'id': a.id }) }}">valider</a>
+
+{% endfor %}
+
 {% endblock %}

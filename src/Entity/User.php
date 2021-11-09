@@ -53,11 +53,9 @@ class User implements UserInterface
     public $confirm_password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Conge::class, mappedBy="userId")
+     * @ORM\OneToMany(targetEntity=Conge::class, mappedBy="conge")
      */
     private $conges;
-
-
 
     public function __construct()
     {
@@ -135,7 +133,7 @@ class User implements UserInterface
     {
         if (!$this->conges->contains($conge)) {
             $this->conges[] = $conge;
-            $conge->setUserId($this);
+            $conge->setUser($this);
         }
 
         return $this;
@@ -145,8 +143,8 @@ class User implements UserInterface
     {
         if ($this->conges->removeElement($conge)) {
             // set the owning side to null (unless already changed)
-            if ($conge->getUserId() === $this) {
-                $conge->setUserId(null);
+            if ($conge->getUser() === $this) {
+                $conge->setUser(null);
             }
         }
 

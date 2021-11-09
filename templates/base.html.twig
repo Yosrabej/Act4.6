@@ -9,19 +9,43 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-        {% if not app.user %}
+       
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+             <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{{ path('home') }}">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{ path('actualites') }}">Actualités </a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{{ path('cooptation') }}">télécharger un fichier</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('conge') }}">Demander un congé</a>
+      </li>
+       <li class="nav-item">
+        <a class="nav-link" href="{{ path('historique') }}">historique</a>
+      </li>
+    </ul>
+     {% if not app.user %}
 <a href="{{path('security_login')}}">connexion</a>
        {% else %}
         <a href="{{path('security_logout')}}">déconnexion</a>
       {% endif %}
       <br/>
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+  </div>
+</nav>
     </head>
     <body>
         {% block body %}
-        
+  
         {% endblock %}
     </body>
 </html>

@@ -18,7 +18,7 @@ class UserRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, User::class);
     }
-    public function findOneByIdJoinedToConge(int $UserId): ?User
+    /*  public function findOneByIdJoinedToConge(int $UserId): ?User
     {
         $entityManager = $this->getEntityManager();
 
@@ -30,7 +30,7 @@ class UserRepository extends ServiceEntityRepository
         )->setParameter('id', $UserId);
 
         return $query->getOneOrNullResult();
-    }
+    }*/
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

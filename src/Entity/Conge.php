@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CongeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,27 +20,21 @@ class Conge
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_debut;
+    private $dateDebut;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $nb_jours;
-
+    private $nbJours;
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="conge")
+     * @ORM\Column(type="string")
      */
-    private $users;
-
+    private $statut;
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="conges")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $userId;
-
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
+    private $user;
 
     public function getId(): ?int
     {
@@ -51,36 +43,47 @@ class Conge
 
     public function getDateDebut(): ?\DateTimeInterface
     {
-        return $this->date_debut;
+        return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $date_debut): self
+    public function setDateDebut(\DateTimeInterface $dateDebut): self
     {
-        $this->date_debut = $date_debut;
+        $this->dateDebut = $dateDebut;
 
         return $this;
     }
 
     public function getNbJours(): ?int
     {
-        return $this->nb_jours;
+        return $this->nbJours;
     }
 
-    public function setNbJours(int $nb_jours): self
+    public function setNbJours(int $nbJours): self
     {
-        $this->nb_jours = $nb_jours;
+        $this->nbJours = $nbJours;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(?User $userId): self
+    public function setUser(?User $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
+
+        return $this;
+    }
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }
